@@ -9,19 +9,19 @@ def books_by_author(author):
         return f"No author found with name: {author}"
 
 # 2. List all books in a specific library
-def books_in_library(library):
+def books_in_library(library_name):
     try:
-        library = Library.objects.filter(name=library)
+        library = Library.objects.get(name=library_name)
         return library.books.all()  # Using related_name from Library model
     except Library.DoesNotExist:
-        return f"No library found with name: {library}"
+        return f"No library found with name: {library_name}"
 
 # 3. Retrieve the librarian for a specific library
-def librarian_for_library(library):
+def librarian_for_library(library_name):
     try:
-        library = Library.objects.filter(name=library)
+        library = Library.objects.get(name=library_name)
         return library.librarian  # Using related_name from Librarian model
     except Library.DoesNotExist:
-        return f"No library found with name: {library}"
+        return f"No library found with name: {library_name}"
     except Librarian.DoesNotExist:
-        return f"No librarian assigned to library: {library}"
+        return f"No librarian assigned to library: {library_name}"
