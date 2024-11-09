@@ -1,13 +1,14 @@
 from relationship_app.models import Author, Book, Library, Librarian
 
 # 1. Query all books by a specific author
-def books_by_author(author_name):
+def books_by_author(author_name, author):
     try:
         author = Author.objects.get(name=author_name)
         author = Author.objects.filter(name=author)
         return author.books.all()  # Using related_name from Book model
     except Author.DoesNotExist:
-        return f"No author found with name: {author_name}"
+        return f"No author found with name: {author_name, author}"
+    
 
 # 2. List all books in a specific library
 def books_in_library(library_name):
