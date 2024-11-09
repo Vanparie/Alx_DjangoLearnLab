@@ -20,8 +20,10 @@ def books_in_library(library_name):
 # 3. Retrieve the librarian for a specific library
 def librarian_for_library(library_name):
     try:
-        librarian = Library.objects.get(library=library_name)
-        return librarian  # Using related_name from Librarian model
+        library = Library.objects.get(name=library_name)
+        # Directly use Librarian.objects.get(library=...)
+        librarian = Librarian.objects.get(library=library)
+        return librarian
     except Library.DoesNotExist:
         return f"No library found with name: {library_name}"
     except Librarian.DoesNotExist:
