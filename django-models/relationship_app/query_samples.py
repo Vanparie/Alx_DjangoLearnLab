@@ -9,12 +9,12 @@ def books_by_author(author_name):
     except Author.DoesNotExist:
         return f"No author found with name: {author_name}"
 
-def books_by_author(author):  
+def books_by_author(Author):  
     try:
         author = Author.objects.filter(name=author)  
         return author.books.all()  # Using related_name from Book model
     except Author.DoesNotExist:
-        return f"No author found with name: {author}"
+        return f"No author found with name: {Author}"
 
 # 2. List all books in a specific library
 def books_in_library(library_name):
