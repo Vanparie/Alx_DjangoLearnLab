@@ -51,3 +51,9 @@ from django.conf import settings
 
 class Library(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+from django.contrib.auth.models import AbstractUser
+
+class CustomUser(AbstractUser):
+    # Add any additional fields here
+    pass
