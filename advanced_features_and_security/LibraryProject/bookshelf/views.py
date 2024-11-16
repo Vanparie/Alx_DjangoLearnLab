@@ -1,6 +1,5 @@
 from django.shortcuts import render
-
-# bookshelf/views.py
+from .forms import ExampleForm
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
@@ -53,3 +52,19 @@ def book_list(request):
     response = render(request, 'bookshelf/book_list.html')
     response['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline';"
     return response
+
+
+def example_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Handle the valid form (e.g., save to database, send email, etc.)
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            age = form.cleaned_data['age']
+            # Add any other processing as required
+            return render(request, 'bookshelf/thank_you.html', {'name': name})
+    else:
+        form = ExampleForm()
+
+    return render(request, 'bookshelf/form_example.html', {'form': form})

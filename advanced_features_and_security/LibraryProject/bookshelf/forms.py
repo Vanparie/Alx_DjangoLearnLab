@@ -16,3 +16,9 @@ def search_books(request):
         query = form.cleaned_data['query']
         books = Book.objects.filter(title__icontains=query)
     return render(request, 'bookshelf/book_list.html', {'form': form, 'books': books})
+
+
+class ExampleForm(forms.Form):
+    name = forms.CharField(max_length=100, label='Your Name')
+    email = forms.EmailField(label='Your Email')
+    age = forms.IntegerField(min_value=0, label='Your Age')
