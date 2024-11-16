@@ -36,3 +36,20 @@ def delete_book(request, book_id):
     book.delete()
     return redirect('bookshelf:book_list')
 
+
+def search_books(request):
+    query = request.GET.get('q', '')
+    if query:
+        books = Book.objects.filter(title__icontains=query)
+    else:
+        books = Book.objects.all()
+    return render(request, 'bookshelf/book_list.html', {'books': books})
+
+# bookshelf/views.py
+
+from django.http import HttpResponse
+
+def book_list(request):
+    response = render(request, 'bookshelf/book_list.html')
+    response['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline';"
+    return response

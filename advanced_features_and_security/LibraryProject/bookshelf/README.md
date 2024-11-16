@@ -33,3 +33,12 @@ Test the permissions by logging in as users in different groups and verifying th
 ## Example Setup:
 1. Create and assign groups through the Django admin interface.
 2. Test user access based on their group and assigned permissions.
+
+
+## Security Measures Implemented
+
+- **CSRF Protection**: All forms include `{% csrf_token %}` to prevent CSRF attacks.
+- **SQL Injection Prevention**: All database queries use Django's ORM, preventing SQL injection.
+- **Content Security Policy (CSP)**: CSP headers are set to limit the sources from which content can be loaded.
+- **HTTPS-Only Cookies**: `CSRF_COOKIE_SECURE` and `SESSION_COOKIE_SECURE` are set to `True` to ensure cookies are sent only over HTTPS.
+- **Security Headers**: The app uses security headers like `SECURE_BROWSER_XSS_FILTER`, `X_FRAME_OPTIONS`, and `SECURE_CONTENT_TYPE_NOSNIFF`.
