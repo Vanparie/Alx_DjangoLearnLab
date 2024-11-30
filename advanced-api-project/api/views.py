@@ -4,6 +4,8 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView,
 from .models import Book
 from .serializers import BookSerializer
 
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+
 
 # ListAPIView: Handles GET requests to retrieve all books
 class BookListView(ListAPIView):
