@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.filters import SearchFilter
 from rest_framework.filters import OrderingFilter     # This ensures "filters.OrderingFilter" is present
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -21,6 +21,7 @@ class BookListView(ListAPIView):
  # Enable filtering, searching, and ordering
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_backends = [OrderingFilter]
+    filter_backends = [SearchFilter]
 
     # Specify fields for filtering
     filterset_fields = ['title', 'author__name', 'publication_year']
