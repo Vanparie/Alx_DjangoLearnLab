@@ -59,3 +59,27 @@ To access protected endpoints:
 
 ## Testing
 Use Postman or curl to test CRUD operations. Verify authentication by attempting access with and without tokens.
+
+
+## Advanced Query Capabilities for Book API
+
+### Features
+1. **Filtering:**
+   - Filter books by `title`, `author`, or `publication_year`.
+   - Example: `/api/books/?author__name=George Orwell`
+
+2. **Searching:**
+   - Search books by `title` or `author`.
+   - Example: `/api/books/?search=1984`
+
+3. **Ordering:**
+   - Order books by `title` or `publication_year` (ascending or descending).
+   - Example (ascending): `/api/books/?ordering=publication_year`
+   - Example (descending): `/api/books/?ordering=-title`
+
+### How to Test
+Use Postman, curl, or any HTTP client to test the API endpoints with query parameters.
+
+### URL Endpoints
+- **Base URL:** `/api/books/`
+- **Query Parameters:** `?field=value`, `?search=query`, `?ordering=field`
