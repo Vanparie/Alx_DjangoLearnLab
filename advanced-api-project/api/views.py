@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter     # This ensures "filters.OrderingFilter" is present
 from django_filters.rest_framework import DjangoFilterBackend
 
 from django_filters import rest_framework
