@@ -13,7 +13,7 @@ class ProfileForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ["title", "content"]  # Only allow editing of title and content
+        fields = ["title", "content", "tags"]  # Only allow editing of title and content
 
 
 class CommentForm(forms.ModelForm):
