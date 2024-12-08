@@ -131,3 +131,54 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+
+
+
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView
+from .models import Comment, Post
+from .forms import CommentForm
+
+class CommentCreateView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/add_comment.html'
+
+    def form_valid(self, form):
+        # Automatically associate the comment with the current post and logged-in user
+        post = get_object_or_404(Post, id=self.kwargs['post_id'])
+        form.instance.post = post
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Redirect back to the post's detail page after successfully adding a comment
+        return reverse_lazy('post-detail', kwargs={'pk': self.kwargs['post_id']})
+
+
+class CommentUpdateView(UpdateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/edit_comment.html'
+
+    def get_success_url(self):
+        # Redirect back to the post's detail page after editing the comment
+        return reverse_lazy('post-detail', kwargs={'pk': self.object.post.id})
+
+    def get_queryset(self):
+        # Restrict updates to only comments authored by the current user
+        return Comment.objects.filter(author=self.request.user)
+
+
+class CommentDeleteView(DeleteView):
+    model = Comment
+    template_name = 'blog/delete_comment.html'
+
+    def get_success_url(self):
+        # Redirect back to the post's detail page after deleting the comment
+        return reverse_lazy('post-detail', kwargs={'pk': self.object.post.id})
+
+    def get_queryset(self):
+        # Restrict deletions to only comments authored by the current user
+        return Comment.objects.filter(author=self.request.user)
