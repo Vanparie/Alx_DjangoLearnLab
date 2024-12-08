@@ -24,3 +24,23 @@
 3. Run the development server:
    ```bash
    python manage.py runserver
+
+
+
+# Django Blog Project
+
+## Features
+- List all posts.
+- View individual post details.
+- Create, update, and delete posts (authenticated users).
+
+## URLs
+- `/`: List all posts.
+- `/post/<int:pk>/`: View a single post.
+- `/post/new/`: Create a new post.
+- `/post/<int:pk>/edit/`: Edit an existing post.
+- `/post/<int:pk>/delete/`: Delete a post.
+
+## Permissions
+- Only logged-in users can create posts.
+- Only the post’s author can edit or delete their posts.
