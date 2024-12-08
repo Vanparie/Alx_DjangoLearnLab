@@ -14,7 +14,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ["title", "content", "tags"]  # Only allow editing of title and content
-
+        widgets = {
+            'tags': TagWidget(),  # Specify the widget for the tags field
+        }
 
 class CommentForm(forms.ModelForm):
     class Meta:
