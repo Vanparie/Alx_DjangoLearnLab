@@ -96,6 +96,7 @@ class LikePostView(APIView):
 
         post = get_object_or_404(Post, pk=pk)  # Retrieve the post using get_object_or_404
         like, created = Like.objects.get_or_create(user=request.user, post=post)  # Get or create a Like
+        generics.get_object_or_404(Post, pk=pk)
 
         # Prevent user from liking a post multiple times
         if Like.objects.filter(user=user, post=post).exists():
