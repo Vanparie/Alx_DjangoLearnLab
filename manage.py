@@ -6,7 +6,21 @@ import sys
 
 def main():
     """Run administrative tasks."""
+
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'social_media_api.settings')
+
+
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_blog.settings')
+
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'advanced_api_project.settings')
+
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api_project.settings')
+
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Introduction_to_Django.settings')
+
+
+
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

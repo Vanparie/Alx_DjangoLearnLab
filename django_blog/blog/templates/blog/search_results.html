@@ -1,0 +1,10 @@
+<h1>Search Results</h1>
+{% if results %}
+    <ul>
+        {% for post in results %}
+            <li><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No results found for "{{ query }}".</p>
+{% endif %}
