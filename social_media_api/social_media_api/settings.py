@@ -86,6 +86,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'social_media_api.wsgi.application'
 
+import os
+
+# Heroku assigns a PORT environment variable
+PORT = os.getenv('PORT', '8000')  # Default to 8000 for local development
+
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
