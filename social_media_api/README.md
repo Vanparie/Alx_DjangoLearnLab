@@ -116,3 +116,11 @@ json
 GET /api/comments/{id}/: Retrieve a specific comment.
 PUT /api/comments/{id}/: Update a comment (only the author can update).
 DELETE /api/comments/{id}/: Delete a comment (only the author can delete).
+
+
+
+Follow/Unfollow
+POST /accounts/follow/<user_id>/: Follow a user.
+POST /accounts/unfollow/<user_id>/: Unfollow a user.
+Feed
+GET /posts/feed/: Retrieve an aggregated feed of posts from followed users.

@@ -5,6 +5,10 @@ from rest_framework.authtoken.models import Token
 CustomUser = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
+
+    followers_count = serializers.SerializerMethodField()
+    following_count = serializers.SerializerMethodField()
+
     serializers.CharField()
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
     confirm_password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
@@ -14,6 +18,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'password', 'email', 'bio', 'profile_picture']
         extra_kwargs = {'password': {'write_only': True}}
 
+    def get_followers_count(self, obj):
+        return obj.followers.count()
+
+    def get_following_count(self, obj):
+        return obj.following.count()
+    
     def validate(self, data):
         # Ensure the passwords match
         if data['password'] != data['confirm_password']:
