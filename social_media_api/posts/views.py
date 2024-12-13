@@ -80,6 +80,7 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404  # Import get_object_or_404
 from posts.models import Post, Like
 from notifications.models import Notification
 from django.contrib.contenttypes.models import ContentType
@@ -92,6 +93,9 @@ class LikePostView(APIView):
     def post(self, request, pk):
         post = Post.objects.get(pk=pk)
         user = request.user
+
+        post = get_object_or_404(Post, pk=pk)  # Retrieve the post using get_object_or_404
+        like, created = Like.objects.get_or_create(user=request.user, post=post)  # Get or create a Like
 
         # Prevent user from liking a post multiple times
         if Like.objects.filter(user=user, post=post).exists():
@@ -126,3 +130,13 @@ class UnlikePostView(APIView):
         like.delete()
 
         return Response({"detail": "Post unliked successfully!"}, status=status.HTTP_200_OK)
+
+
+
+class PostDetailView(generics.RetrieveAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+    def get_object(self):
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])  # Use get_object_or_404 here
+        return post
