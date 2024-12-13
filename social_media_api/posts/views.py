@@ -69,3 +69,60 @@ class FeedView(generics.ListAPIView):
         user = self.request.user
         followed_users = user.following.all()
         return Post.objects.filter(author__in=followed_users).order_by('-created_at')
+
+
+
+# Implement LIKE functionality
+
+# posts/views.py
+
+from rest_framework import status, permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.contrib.auth import get_user_model
+from posts.models import Post, Like
+from notifications.models import Notification
+from django.contrib.contenttypes.models import ContentType
+
+User = get_user_model()
+
+class LikePostView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        user = request.user
+
+        # Prevent user from liking a post multiple times
+        if Like.objects.filter(user=user, post=post).exists():
+            return Response({"detail": "You have already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Create like and notification
+        like = Like.objects.create(user=user, post=post)
+
+        # Create notification for the post owner
+        notification = Notification.objects.create(
+            recipient=post.author,
+            actor=user,
+            verb="liked your post",
+            target=post,
+        )
+
+        return Response({"detail": "Post liked successfully!"}, status=status.HTTP_201_CREATED)
+
+class UnlikePostView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        user = request.user
+
+        # Check if the user has liked the post
+        like = Like.objects.filter(user=user, post=post).first()
+        if not like:
+            return Response({"detail": "You haven't liked this post."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Delete the like
+        like.delete()
+
+        return Response({"detail": "Post unliked successfully!"}, status=status.HTTP_200_OK)

@@ -124,3 +124,19 @@ POST /accounts/follow/<user_id>/: Follow a user.
 POST /accounts/unfollow/<user_id>/: Unfollow a user.
 Feed
 GET /posts/feed/: Retrieve an aggregated feed of posts from followed users.
+
+
+
+# Test Likes and Notifications Features
+Like a post:
+
+Request: POST /posts/<int:pk>/like/
+Response: {"detail": "Post liked successfully!"}
+Unlike a post:
+
+Request: POST /posts/<int:pk>/unlike/
+Response: {"detail": "Post unliked successfully!"}
+View unread notifications:
+
+Request: GET /notifications/
+Response: List of unread notifications.
