@@ -84,3 +84,35 @@ Created by Your Name.
    - `your-username` with your GitHub username.
    - `[Your Name]` with your actual name.
 3. Modify or expand on sections if needed to match your specific project setup.
+
+
+
+
+Posts
+
+GET /api/posts/: List all posts (paginated).
+POST /api/posts/: Create a new post.
+Request Body:
+json
+
+{
+    "title": "Sample Post",
+    "content": "This is a sample post."
+}
+GET /api/posts/{id}/: Retrieve a specific post.
+PUT /api/posts/{id}/: Update a post (only the author can update).
+DELETE /api/posts/{id}/: Delete a post (only the author can delete).
+Comments
+
+GET /api/comments/: List all comments.
+POST /api/comments/: Create a new comment.
+Request Body:
+json
+
+{
+    "post": 1,
+    "content": "This is a sample comment."
+}
+GET /api/comments/{id}/: Retrieve a specific comment.
+PUT /api/comments/{id}/: Update a comment (only the author can update).
+DELETE /api/comments/{id}/: Delete a comment (only the author can delete).
