@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
         return data    
 
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(**validated_data)
+        user = get_user_model().objects.create_user(**validated_data)
         Token.objects.create(user=user)  # Generate a token for the new user
         return user
 
