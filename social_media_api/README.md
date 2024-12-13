@@ -140,3 +140,103 @@ View unread notifications:
 
 Request: GET /notifications/
 Response: List of unread notifications.
+
+
+
+# Deployment Guide
+This section outlines how to deploy the social_media_api Django REST API to a production environment.
+
+Step 1: Prepare for Deployment
+Update settings.py for Production:
+
+Set DEBUG to False:
+python
+Copy code
+DEBUG = False
+Configure ALLOWED_HOSTS: Add the domain or IP address of your hosting service:
+python
+Copy code
+ALLOWED_HOSTS = ['your-domain.com', 'your-server-ip']
+Security Settings: Enable production-level security:
+python
+Copy code
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True
+X_FRAME_OPTIONS = 'DENY'
+Add an environment variable for the secret key:
+python
+Copy code
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-secret-key')
+Install Required Packages: Install the necessary libraries for production:
+
+bash
+Copy code
+pip install gunicorn psycopg2-binary whitenoise
+Static Files Configuration: Add Whitenoise to serve static files:
+
+python
+Copy code
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # other middleware
+]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+Step 2: Choose a Hosting Service
+Recommended Hosting Options:
+Heroku: Easiest for beginners. Free tier available.
+AWS Elastic Beanstalk: Scalable and flexible.
+DigitalOcean: Offers VPS for direct control over deployment.
+Render: Simple hosting solution with free plans.
+Step 3: Deployment with Heroku (Example)
+Install the Heroku CLI: Follow the Heroku CLI Installation Guide.
+
+Create a Heroku App:
+
+bash
+Copy code
+heroku create your-app-name
+Configure Heroku for Django:
+
+Add a Procfile to the project root:
+makefile
+Copy code
+web: gunicorn social_media_api.wsgi
+Push Your Code to Heroku:
+
+bash
+Copy code
+git add .
+git commit -m "Prepare for deployment"
+git push heroku main
+Set Environment Variables:
+
+bash
+Copy code
+heroku config:set DJANGO_SECRET_KEY=your-secret-key
+heroku config:set ALLOWED_HOSTS=your-app-name.herokuapp.com
+Migrate the Database:
+
+bash
+Copy code
+heroku run python manage.py migrate
+Step 4: Test the Live Application
+Visit the live application URL provided by the hosting service (e.g., https://your-app-name.herokuapp.com).
+Use Postman or a web browser to interact with the API endpoints.
+Step 5: Ongoing Monitoring and Maintenance
+Enable Logging: Use services like Sentry for error tracking or monitor logs in the hosting provider's dashboard.
+
+Regular Updates: Keep dependencies updated by running:
+
+bash
+Copy code
+pip install --upgrade -r requirements.txt
+Database Backups: Use managed services like Heroku Postgres or AWS RDS for automated backups.
+
+Live Application URL
+Once deployed, access the live API at:
+https://your-app-name.herokuapp.com
+
